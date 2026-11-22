@@ -19,21 +19,28 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Publish
-        run: dotnet publish -c Release -o out
+      - name: Publish CLI
+        run: dotnet publish ModHashVerifier.csproj -c Release -o out
+
+      - name: Publish GUI
+        run: dotnet publish Gui/ModHashGui.csproj -c Release -o out-gui
 
       - name: Hash
         shell: pwsh
         run: |
-          $h = (Get-FileHash out/modhash.exe -Algorithm SHA256).Hash.ToLower()
-          "$h  modhash.exe" | Out-File out/modhash.exe.sha256 -Encoding ascii
+          foreach ($f in 'out/modhash.exe', 'out-gui/modhash-gui.exe') {
+            $h = (Get-FileHash $f -Algorithm SHA256).Hash.ToLower()
+            "$h  $(Split-Path $f -Leaf)" | Out-File "$f.sha256" -Encoding ascii
+          }
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ModHashVerifier
+          name: modhash
           path: |
             out/modhash.exe
             out/modhash.exe.sha256
+            out-gui/modhash-gui.exe
+            out-gui/modhash-gui.exe.sha256
 
       - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/v')
@@ -41,3 +48,5 @@ jobs:
           files: |
             out/modhash.exe
             out/modhash.exe.sha256
+            out-gui/modhash-gui.exe
+            out-gui/modhash-gui.exe.sha256

@@ -20,9 +20,19 @@ In cmd, do not end a quoted path with a backslash (`"C:\mods\"`), because that e
 
 A report is saved next to the exe.
 
+## Windows app (GUI)
+
+`modhash-gui.exe` is a dark-themed window version of the same check. Download it from the Releases page, run it, then paste or browse for the mods folder, drop a folder on the window, or press **Auto-detect** to find mods folders of common launchers (vanilla, Prism, Modrinth App, ATLauncher, CurseForge, GDLauncher, Technic).
+
+- Summary cards show how many files are verified, unverified and flagged.
+- Filter buttons (All, Verified, Unverified, Flagged) and a search box narrow the list. The riskiest files are listed first.
+- Click a file to see its hash, mod info and a short explanation. Right-click for Copy SHA-1, Copy file path and Show in Explorer.
+- **Include subfolders** scans the whole tree, and **Copy report** or **Save report** exports the results.
+- The same rules apply as for the command-line tool: it is read-only, it never runs files, and unverified is a lead, not proof.
+
 ## Run with one command (PowerShell)
 
-`modhash.ps1` downloads the latest `modhash.exe` from the Releases page, checks its SHA-256 against the published hash file, asks for the mods folder (Enter uses the default `.minecraft\mods`), runs it, and deletes the temporary files.
+`modhash.ps1` downloads the latest `modhash.exe` from the Releases page, checks its SHA-256 against the published hash file, asks you to paste the mods folder path (an empty answer uses the default `.minecraft\mods`), runs it, and deletes the temporary files.
 
 ```
 powershell -NoProfile -Command "irm 'https://raw.githubusercontent.com/Deflectionn/ModrinthModHashVerifier/main/modhash.ps1' | iex"
@@ -30,7 +40,7 @@ powershell -NoProfile -Command "irm 'https://raw.githubusercontent.com/Deflectio
 
 Notes for staff:
 
-- Do not hide the window. The player should see what is running, and the output has to be visible on the recording.
+- Run it from an open cmd or PowerShell window, so the output stays visible when it finishes. Do not hide the window. The player should see what is running, and the output has to be visible on the recording.
 - This runs code from the internet on the player's PC. It also leaves a fileless-execution pattern in PowerShell and clipboard memory, so do your memory and clipboard checks first, or note in the case file that the hit is yours.
 - The hash file comes from the same release as the exe, so it only detects a corrupted download. To verify against a trusted value, compare with the hash published in the README or release notes.
 

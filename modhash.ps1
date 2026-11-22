@@ -22,7 +22,7 @@ try {
     Write-Host "modhash.exe verified, SHA-256 $actual"
 
     $default = Join-Path $env:APPDATA '.minecraft\mods'
-    $folder = Read-Host "Mods folder (press Enter for $default)"
+    $folder = Read-Host 'Paste the mods folder path'
     if ([string]::IsNullOrWhiteSpace($folder)) { $folder = $default }
     $folder = $folder.Trim().Trim('"').TrimEnd('\')
 
@@ -30,5 +30,4 @@ try {
 }
 finally {
     Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue
-    Read-Host 'Press Enter to close' | Out-Null
 }
